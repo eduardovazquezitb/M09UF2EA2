@@ -8,6 +8,38 @@ namespace M09UF2EA2
     {
         static void Main(string[] args)
         {
+            // Exercici1();
+            Exercici2();
+        }
+
+        static void Exercici2()
+        {
+            Nevera nevera = new Nevera(9);
+            Action[] actions = new Action[]
+            {
+                () => nevera.OmplirNevera("Anitta"),
+                () => nevera.BeureCervesa("Bad Bunny"),
+                () => nevera.BeureCervesa("Lil Nas X"),
+                () => nevera.BeureCervesa("Manuel Turizo")
+            };
+            List<Thread> threads = new List<Thread>();
+            int currentThread = 0;
+            foreach (var action in actions)
+            {
+                int current = currentThread++;
+                Thread thread = new Thread(() =>
+                {
+                    if (current != 0)
+                        threads[current - 1].Join();
+                    action();
+                });
+                threads.Add(thread);
+                thread.Start();
+            }
+        }
+
+        static void Exercici1()
+        {
             string[] cadenes = new[]{
                 "Una vegada hi havia un gat...",
                 "En un lugar de la Mancha...",
